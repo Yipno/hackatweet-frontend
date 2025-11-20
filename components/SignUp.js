@@ -8,6 +8,7 @@ const SignUp = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
+  // LOGIQUE MODAL
   const [open, setOpen] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [modalText, setModalText] = useState('Content of the modal');
@@ -30,6 +31,7 @@ const SignUp = () => {
     setOpen(false);
   };
 
+  // LOGIQUE METIER
   const handleSignUp = async (firstname, username, password) => {
     console.log(firstname, username, password);
     const response = await fetch('http://localhost:3000/users/signup', {
