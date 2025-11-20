@@ -5,10 +5,10 @@ import SignIn from './SignIn';
 const Login = () => {
   return (
     <div className={styles.btnContainer}>
-      <h2>Join today</h2>
+      <h2>Inscrivez vostre blason ici</h2>
 
       <SignUp />
-      <h4>Already have an account ?</h4>
+      <h4>Etois desja mensbre ?</h4>
 
       <SignIn />
     </div>

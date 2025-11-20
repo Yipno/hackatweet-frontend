@@ -11,3 +11,10 @@
   background-color: #8a2c1e;
   color: #e5d3a1;
 }
+
+.modal {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+}

@@ -11,8 +11,10 @@ function Home() {
         <div className={styles.imgBackground}>placeholder</div>
         <div className={styles.container}>
           <div className={styles.branding}>
-            <Image src={'/logo.png'} alt={'logo'} height={200} width={200} />
-            <h1 className={styles.title}>Les Gazouillis du Royaume</h1>
+            <Image src={'/logo.png'} alt={'logo'} height={260} width={260} />
+            <h1 className={styles.title}>
+              Les Gazouillis{<br />} du {<br />}Royaume
+            </h1>
           </div>
           <Login />
         </div>

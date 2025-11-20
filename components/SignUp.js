@@ -1,9 +1,12 @@
 import { useState } from 'react';
 import styles from '../styles/SignUp.module.css';
-
 import { Modal } from 'antd';
+import { useDispatch } from 'react-redux';
+import { login } from '../reducers/user';
 
 const SignUp = () => {
+  const dispatch = useDispatch();
+
   const [firstname, setFirstname] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -11,7 +14,6 @@ const SignUp = () => {
   // LOGIQUE MODAL
   const [open, setOpen] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
-  const [modalText, setModalText] = useState('Content of the modal');
 
   const showModal = () => {
     setOpen(true);
@@ -40,6 +42,12 @@ const SignUp = () => {
       body: JSON.stringify({ firstname, username, password }),
     });
     const data = await response.json();
+    if (!data.result) {
+      alert('Ce gueux estois desja dans les registres');
+      return;
+    } else {
+      dispatch(login({ username, token: data.token }));
+    }
     setFirstname('');
     setUsername('');
     setPassword('');
@@ -50,20 +58,24 @@ const SignUp = () => {
   return (
     <div>
       <button className={styles.btnSignUp} onClick={showModal}>
-        Inscription
+        Embrancherie
       </button>
       <Modal
-        title='Title'
+        styles={{
+          content: {
+            color: 'red',
+          },
+        }}
+        title='Embrancherie'
         open={open}
         onOk={handleOk}
         confirmLoading={confirmLoading}
         onCancel={handleCancel}>
-        <p>{modalText}</p>
         SignUp
         <input
           type='text'
           id='name'
-          placeholder='Firstname'
+          placeholder='Appelation Première'
           required
           onChange={e => setFirstname(e.target.value)}
           value={firstname}
@@ -71,7 +83,7 @@ const SignUp = () => {
         <input
           type='text'
           id='username'
-          placeholder='Username'
+          placeholder='Surnom de Cour'
           required
           onChange={e => setUsername(e.target.value)}
           value={username}
@@ -79,13 +91,13 @@ const SignUp = () => {
         <input
           type='password'
           id='password'
-          placeholder='Password'
+          placeholder='Contre-mot Secret'
           required
           onChange={e => setPassword(e.target.value)}
           value={password}
         />
         <button type='submit' onClick={() => handleSignUp(firstname, username, password)}>
-          Register
+          Se mettre en les tablettes du Roy
         </button>
       </Modal>
     </div>
