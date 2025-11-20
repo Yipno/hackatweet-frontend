@@ -1,0 +1,6 @@
+.main {
+  height: 90vh;
+  width: 50.58vw;
+  border: 5px solid brown;
+  overflow: scroll;
+}

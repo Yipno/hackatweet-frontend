@@ -7,6 +7,7 @@ import { useState } from 'react';
 
 function Home() {
   const user = useSelector(state => state.user.value);
+
   console.log('user connected:', user);
 
   return (
@@ -14,7 +15,7 @@ function Home() {
       <main className={styles.main}>
         <div className={styles.leftContainer}>
           <div className={styles.logo}>
-             <Image src={'/logo.png'} alt={'logo'} height={150} width={150} />
+            <Image src={'/logo.png'} alt={'logo'} height={150} width={150} />
           </div>
           <div className={styles.bottomInfo}>
             <div className={styles.userInfo}>
@@ -32,40 +33,33 @@ function Home() {
         <div className={styles.middleContainer}>
           <div className={styles.tweetHeader}>
             <h1 className={styles.title}>Movltes gazouillis</h1>
-              <div className={styles.tweetInput}>
-                <input className={styles.input} placeholder='quest conter gente gueux ?'></input>
+            <div className={styles.tweetInput}>
+              <input className={styles.input} placeholder='quest conter gente gueux ?'></input>
               <div className={styles.underInput}>
                 <div className={styles.counter}>counter</div>
                 <button className={styles.tweetBtn}>Gazouillage</button>
               </div>
-              </div>
+            </div>
           </div>
-          <div className={styles.tweetContainer}>
-
-          </div>
+          <div className={styles.tweetContainer}></div>
         </div>
         <div className={styles.rightContainer}>
           <h2 className={styles.title}>Ragots</h2>
           <div className={styles.trendsContainer}>
             <div className={styles.trendingTweet}>
               <span>#Victuailles</span>
-              <span>23 gazouillis</span>   
+              <span>23 gazouillis</span>
             </div>
             <div className={styles.trendingTweet}>
               <span>#Festedelacitrouille</span>
-              <span>32 gazouillis</span>   
+              <span>32 gazouillis</span>
             </div>
             <div className={styles.trendingTweet}>
               <span>#Pendaisondegueux</span>
-              <span>18 gazouillis</span>   
+              <span>18 gazouillis</span>
             </div>
           </div>
         </div>
-
-
-
-
-
       </main>
     </div>
   );

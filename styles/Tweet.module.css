@@ -1,0 +1,34 @@
+.tweetContainer {
+  background-image: url('/backtweet.png');
+  filter: brightness(1.2) saturate(0.5);
+  display: flex;
+  width: 50vw;
+  padding: 0.6em;
+}
+
+.tweetContainer::after {
+  border-bottom: 1px solid grey;
+}
+
+.avatar {
+  margin: 0.2em;
+}
+
+.tweetHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 0.2em;
+}
+
+.tweetHead h3 {
+  margin: 1em 0 0 0;
+}
+
+.username {
+  margin: 0 0 0.5em 0.2em;
+}
+
+.content {
+  margin: 0 0.2em 0 1em;
+}
