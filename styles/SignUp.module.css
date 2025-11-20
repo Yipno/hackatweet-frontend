@@ -1,0 +1,13 @@
+.btnSignUp {
+  font-family: Metamorphous;
+  font-size: 1.4em;
+  padding: 0.4em;
+  border-radius: 0.8em;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.btnSignUp:hover {
+  background-color: #8a2c1e;
+  color: #e5d3a1;
+}
