@@ -7,11 +7,10 @@ import { useState } from 'react';
 
 function Home() {
   const user = useSelector(state => state.user.value);
-  const [isUser, setIsUser] = useState(user);
 
   console.log('user connected:', user);
 
-  return <div>{isUser.token || <Login />}</div>;
+  return <div>HOME</div>;
 }
 
 export default Home;

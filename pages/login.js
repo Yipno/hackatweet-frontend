@@ -1,20 +1,21 @@
+import Login from '../components/Login';
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
-import Home from '../components/Home';
 import { useSelector } from 'react-redux';
 
-function Index() {
+const LoginPage = () => {
   const router = useRouter();
   const user = useSelector(state => state.user.value);
-
   useEffect(() => {
-    if (!user.token) {
-      router.push('/login');
+    if (user.token) {
+      router.push('/');
     }
   }, [user]);
+  return (
+    <>
+      <Login />
+    </>
+  );
+};
 
-  useEffect;
-  return <Home />;
-}
-
-export default Index;
+export default LoginPage;
