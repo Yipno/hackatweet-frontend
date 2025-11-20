@@ -8,7 +8,7 @@ const Login = () => {
   return (
     <div>
       <main className={styles.main}>
-        <div className={styles.imgBackground}>placeholder</div>
+        <div className={styles.imgBackground}></div>
         <div className={styles.container}>
           <div className={styles.branding}>
             <Image src={'/logo.png'} alt={'logo'} height={260} width={260} />
