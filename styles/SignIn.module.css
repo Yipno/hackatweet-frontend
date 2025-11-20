@@ -11,3 +11,41 @@
   background-color: #8a2c1e;
   color: #e5d3a1;
 }
+
+.modal {
+  font-family: Metamorphous;
+  height: 30em;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  /* border: 1px solid red; */
+}
+
+.modal h3 {
+  font-size: 2em;
+  margin: 0;
+}
+
+.modal input {
+  border-radius: 8px;
+  border: 1px solid #3a2e1f;
+  font-family: Metamorphous;
+  padding: 0.8em;
+  margin: 1em;
+  width: 26em;
+}
+
+.modal button {
+  font-family: Metamorphous;
+  font-size: 1.4em;
+  padding: 0.6em;
+  border-radius: 0.8em;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.modal button:hover {
+  background-color: #8a2c1e;
+  color: #e5d3a1;
+}

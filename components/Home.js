@@ -1,26 +1,17 @@
 import styles from '../styles/Home.module.css';
 import Image from 'next/image';
-import SignUp from './SignUp';
-import SignIn from './SignIn';
 import Login from './Login';
+import { useSelector } from 'react-redux';
+import user from '../reducers/user';
+import { useState } from 'react';
 
 function Home() {
-  return (
-    <div>
-      <main className={styles.main}>
-        <div className={styles.imgBackground}>placeholder</div>
-        <div className={styles.container}>
-          <div className={styles.branding}>
-            <Image src={'/logo.png'} alt={'logo'} height={260} width={260} />
-            <h1 className={styles.title}>
-              Les Gazouillis{<br />} du {<br />}Royaume
-            </h1>
-          </div>
-          <Login />
-        </div>
-      </main>
-    </div>
-  );
+  const user = useSelector(state => state.user.value);
+  const [isUser, setIsUser] = useState(user);
+
+  console.log('user connected:', user);
+
+  return <div>{isUser.token || <Login />}</div>;
 }
 
 export default Home;
