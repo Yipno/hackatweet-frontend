@@ -31,6 +31,31 @@ const SignIn = () => {
     setOpen(false);
   };
 
+  const modalContent = (
+    <div className={styles.modal}>
+      <h3>Escription d'identité</h3>
+      <input
+        type='text'
+        id='username'
+        placeholder='Surnom de Cour'
+        required
+        onChange={e => setUsername(e.target.value)}
+        value={username}
+      />
+      <input
+        type='password'
+        id='password'
+        placeholder='Contre-mot secret'
+        required
+        onChange={e => setPassword(e.target.value)}
+        value={password}
+      />
+      <button type='submit' onClick={() => handleSignIn(username, password)}>
+        Connoixion
+      </button>
+    </div>
+  );
+
   // LOGIQUE METIER
   const handleSignIn = async (username, password) => {
     console.log(username, password);
@@ -45,6 +70,7 @@ const SignIn = () => {
       return;
     } else {
       dispatch(login({ username, token: data.token }));
+      setOpen(false);
     }
     setPassword('');
     setUsername('');
@@ -58,31 +84,22 @@ const SignIn = () => {
       </button>
 
       <Modal
-        title='Connectaille'
+        styles={{
+          content: {
+            backgroundColor: '#E5D3A1',
+          },
+          header: {
+            backgroundColor: '#E5D3A1',
+          },
+          footer: {
+            display: 'none',
+          },
+        }}
         open={open}
         onOk={handleOk}
         confirmLoading={confirmLoading}
         onCancel={handleCancel}>
-        Escription d'identité
-        <input
-          type='text'
-          id='username'
-          placeholder='Surnom de Cour'
-          required
-          onChange={e => setUsername(e.target.value)}
-          value={username}
-        />
-        <input
-          type='password'
-          id='password'
-          placeholder='Contre-mot secret'
-          required
-          onChange={e => setPassword(e.target.value)}
-          value={password}
-        />
-        <button type='submit' onClick={() => handleSignIn(username, password)}>
-          Connoixion
-        </button>
+        {modalContent}
       </Modal>
     </div>
   );
