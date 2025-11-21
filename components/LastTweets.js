@@ -4,12 +4,12 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 const LastTweets = ({ newTweet }) => {
-  const user = useSelector(state => state.user.value);
+  const userLog = useSelector(state => state.user.value);
   const [allTweets, setAllTweets] = useState([]);
 
   useEffect(() => {
     //GET ALL TWEETS
-    if (user.token && !newTweet) {
+    if (userLog.token && !newTweet) {
       fetch('http://localhost:3000/tweets')
         .then(result => result.json())
         .then(data => {
@@ -18,11 +18,11 @@ const LastTweets = ({ newTweet }) => {
         });
     }
     if (newTweet) {
-      const tweetToPost = { username: user.username, ...newTweet };
+      const tweetToPost = { firstname: userLog.firstname, username: userLog.username, ...newTweet };
       console.log('tweetToPost: ', tweetToPost);
       setAllTweets(prev => [tweetToPost, ...prev]);
     }
-  }, [user.token, newTweet]);
+  }, [userLog.token, newTweet]);
 
   const handleDelete = id => {
     setAllTweets(prev => prev.filter(t => t._id !== id));
