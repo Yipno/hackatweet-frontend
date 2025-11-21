@@ -48,7 +48,7 @@ function Home() {
               />
               <div className={styles.names}>
                 <span className={styles.firstName}>Firstname</span>
-                <span className={styles.userName}>@Userame</span>
+                <span className={styles.userName}>@{user.username}</span>
               </div>
             </div>
 
