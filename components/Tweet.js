@@ -38,6 +38,11 @@ function Tweet({ firstname, username, user, date, content, avatar, _id, onDelete
   const likeCount = like.length;
   const isLiked = like.includes(userLog.id);  
 
+  let likeStyle = {};
+    if (isLiked) {
+    likeStyle = {'color': '#c20404ff'};
+    } 
+
   // CLIC SUR ICONE LIKE
   const handleLikeClick = () => {
     if (!userLog.token) {
@@ -61,7 +66,7 @@ function Tweet({ firstname, username, user, date, content, avatar, _id, onDelete
               console.log("like", like);
           } 
         })
-      };
+      } else {
 
     // AJOUT LIKE COMPTEUR + BDD
     fetch(`http://localhost:3000/tweets/like/${userLog.token}`, {
@@ -76,9 +81,9 @@ function Tweet({ firstname, username, user, date, content, avatar, _id, onDelete
             dispatch(addLike(user));
             console.log("user", user);
             setLike(data => [...data, userLog.id]);
-            console.log("like", like);
           } 
         })
+      }
       };
 
   return (
@@ -102,7 +107,7 @@ function Tweet({ firstname, username, user, date, content, avatar, _id, onDelete
           {highlightTags(content)}
         </div>
         <div className={styles.icons}>
-          <FaHeart onClick={() => handleLikeClick()} className={styles.heart} />{likeCount}
+          <FaHeart onClick={() => handleLikeClick()}  style={likeStyle} className={styles.heart}/>{likeCount}
            {(username === userLog.username || user.username === userLog.username) && (
             <FaTrash className={styles.trash} onClick={() => handleDelete()} />
           )}
