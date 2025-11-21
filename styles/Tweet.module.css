@@ -1,17 +1,23 @@
 .tweetContainer {
-  background-image: url('/backtweet.png');
-  filter: brightness(1.2) saturate(0.5);
+  background-image: url('/backtweet.webp');
+  filter: brightness(1.2) saturate(0.4);
   display: flex;
-  width: 50vw;
+  width: 100%;
   padding: 0.6em;
-}
-
-.tweetContainer::after {
-  border-bottom: 1px solid grey;
+  border-bottom: 2px solid #4a3b2a;
 }
 
 .avatar {
-  margin: 0.2em;
+  margin: 0;
+  width: 80px;
+  /* border: 1px solid red; */
+}
+.tweetContent {
+  width: 100%;
+  margin-left: 0.3em;
+  display: flex;
+  flex-direction: column;
+  /* border: 1px solid blue; */
 }
 
 .tweetHead {
@@ -19,10 +25,11 @@
   align-items: center;
   justify-content: space-between;
   margin: 0 0.2em;
+  /* border: 1px solid red; */
 }
 
 .tweetHead h3 {
-  margin: 1em 0 0 0;
+  margin: 0;
 }
 
 .username {
@@ -30,5 +37,42 @@
 }
 
 .content {
-  margin: 0 0.2em 0 1em;
+  margin: 0;
+  /* border: 1px solid red; */
+}
+
+.content em {
+  color: red;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.content em:hover {
+  text-decoration: underline;
+}
+
+.icons {
+  /* border: 1px solid red; */
+  margin-top: 0.6em;
+  font-size: 1.2em;
+}
+.heart {
+  cursor: pointer;
+  transition: 0.2s;
+  margin-right: 4px;
+}
+
+.heart:hover {
+  transform: scale(1.2);
+}
+
+.trash {
+  cursor: pointer;
+  transition: 0.2s;
+  margin-left: 8px;
+}
+
+.trash:hover {
+  transform: scale(1.2);
+  color: red;
 }

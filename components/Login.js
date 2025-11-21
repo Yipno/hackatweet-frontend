@@ -11,7 +11,7 @@ const Login = () => {
         <div className={styles.imgBackground}></div>
         <div className={styles.container}>
           <div className={styles.branding}>
-            <Image src={'/logo.png'} alt={'logo'} height={260} width={260} />
+            <Image src={'/logo.webp'} alt={'logo'} height={260} width={260} />
             <h1 className={styles.title}>
               Les Gazouillis{<br />} du {<br />}Royaume
             </h1>
