@@ -18,6 +18,7 @@ const LastTweets = ({ newTweet }) => {
         .then(data => {
           data.allTweets.sort((a, b) => new Date(b.date) - new Date(a.date));
           setAllTweets(data.allTweets);
+          console.log(data.allTweets);
         });
     }
     if (newTweet) {

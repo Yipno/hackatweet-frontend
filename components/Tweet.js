@@ -9,7 +9,7 @@ import { countHashtag } from '../reducers/hashtags';
 import { addLike, removeLike } from '../reducers/likes';
 import { likes } from '../reducers/likes';
 
-function Tweet({ firstname, username, user, date, content, avatar, _id, onDelete }) {
+function Tweet({ firstname, username, user, date, content, avatar, _id, onDelete, likes }) {
   const dispatch = useDispatch();
   const userLog = useSelector(state => state.user.value);
 
@@ -39,9 +39,9 @@ function Tweet({ firstname, username, user, date, content, avatar, _id, onDelete
     }
   };
 
-  console.log(user.username, username, userLog.username);
+  // console.log(user.username, username, userLog.username);
 
-  const [like, setLike] = useState([]);
+  const [like, setLike] = useState(likes);
   const likeCount = like.length;
   const isLiked = like.includes(userLog.id);
 
