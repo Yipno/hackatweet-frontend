@@ -23,7 +23,6 @@ function Home() {
       });
       const data = await result.json();
       console.log(data);
-
       setNewTweet(data.tweet);
       setTweet('');
     }
@@ -45,7 +44,7 @@ function Home() {
                 style={{ borderRadius: '50%' }}
               />
               <div className={styles.names}>
-                <span className={styles.firstName}>Firstname</span>
+                <span className={styles.firstName}>{user.firstname}</span>
                 <span className={styles.userName}>@{user.username}</span>
               </div>
             </div>
