@@ -3,6 +3,7 @@ import styles from '../styles/Tweet.module.css';
 import { FaHeart } from 'react-icons/fa6';
 import { FaTrash } from 'react-icons/fa';
 import { useEffect, useState } from 'react';
+import Moment from 'react-moment';
 
 function Tweet({ user, date, content, avatar }) {
   const highlightTags = text => {
@@ -21,7 +22,7 @@ function Tweet({ user, date, content, avatar }) {
             <h3>{user.firstname}</h3>
           </div>
           <div id='date' className={styles.date}>
-            {date}
+            <Moment fromNow>{date}</Moment>
           </div>
         </div>
         <div id='username' className={styles.username}>

@@ -91,7 +91,7 @@ const SignUp = () => {
   return (
     <div>
       <button className={styles.btnSignUp} onClick={showModal}>
-        Embrancherie
+        Registement
       </button>
       <Modal
         styles={{
