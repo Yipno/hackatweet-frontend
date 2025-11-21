@@ -1,7 +1,6 @@
 import styles from '../styles/Home.module.css';
 import Image from 'next/image';
 import { useDispatch, useSelector } from 'react-redux';
-import user from '../reducers/user';
 import { logout } from '../reducers/user';
 import { useState } from 'react';
 import LastTweets from './LastTweets';
@@ -10,6 +9,7 @@ function Home() {
   const dispatch = useDispatch();
   const user = useSelector(state => state.user.value);
   const [tweet, setTweet] = useState('');
+  const [newTweet, setNewTweet] = useState(null);
 
   const sendTweet = async content => {
     if (content.length > 280) {
@@ -24,12 +24,10 @@ function Home() {
         body: JSON.stringify({ content }),
       });
       const data = await result.json();
-      console.log(data);
+      setNewTweet(data.tweet);
       setTweet('');
     }
   };
-
-  console.log('user connected:', user);
 
   return (
     <main className={styles.main}>
@@ -77,7 +75,7 @@ function Home() {
             </div>
           </div>
           <div className={styles.tweetContainer}>
-            <LastTweets />
+            <LastTweets newTweet={newTweet} />
           </div>
         </div>
         <div className={styles.rightContainer}>

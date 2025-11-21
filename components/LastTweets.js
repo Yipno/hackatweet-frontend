@@ -2,31 +2,31 @@ import Tweet from './Tweet';
 import styles from '../styles/LastTweets.module.css';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import user from '../reducers/user';
 
-const LastTweets = () => {
+const LastTweets = ({ newTweet }) => {
   const user = useSelector(state => state.user.value);
-  const [allTweets, setAllTweets] = useState(['test']);
+  const [allTweets, setAllTweets] = useState([]);
 
   useEffect(() => {
     //GET ALL TWEETS
-    if (user.token) {
+    if (user.token && !newTweet) {
       fetch('http://localhost:3000/tweets')
         .then(result => result.json())
         .then(data => {
-          setAllTweets(() =>
-            data.allTweets.map((tweet, i) => {
-              return <Tweet key={i} avatar='/avatar.webp' {...tweet} />;
-            })
-          );
+          setAllTweets(data.allTweets);
         });
     }
-  }, [user]);
+    if (newTweet) {
+      setAllTweets(prev => [...prev, newTweet]);
+    }
+  }, [user.token, newTweet]);
 
   return (
-    <div>
+    <>
       <section className={styles.main}>
-        {allTweets}
+        {allTweets.map((tweet, i) => {
+          return <Tweet key={i} avatar='/avatar.webp' {...tweet} />;
+        })}
         {/* <Tweet
           avatar={'/avatar.webp'}
           firstname={'John'}
@@ -48,7 +48,7 @@ const LastTweets = () => {
         />
          */}
       </section>
-    </div>
+    </>
   );
 };
 
