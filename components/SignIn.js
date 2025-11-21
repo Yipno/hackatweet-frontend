@@ -69,7 +69,7 @@ const SignIn = () => {
       alert('Vostre blason estois nul connu en ces lieues');
       return;
     } else {
-      dispatch(login({ username: user.username, firstname: user.username, token: user.token }));
+      dispatch(login({ username: user.username, firstname: user.firstname, token: user.token }));
       setOpen(false);
     }
     setPassword('');

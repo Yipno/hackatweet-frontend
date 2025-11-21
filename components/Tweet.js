@@ -5,16 +5,19 @@ import { FaTrash } from 'react-icons/fa';
 import { useEffect, useState } from 'react';
 import Moment from 'react-moment';
 import { useDispatch, useSelector } from 'react-redux';
+import { countHashtag } from '../reducers/hashtags';
 import { addLike, removeLike } from '../reducers/likes';
 import { likes } from '../reducers/likes';
 
-function Tweet({ username, user, date, content, avatar, _id, onDelete }) {
+function Tweet({ firstname, username, user, date, content, avatar, _id, onDelete }) {
+  const dispatch = useDispatch();
   const userLog = useSelector(state => state.user.value);
   // const likeLog = useSelector(state => state.likes.value);
 
 
   const highlightTags = text => {
     const pattern = /(#(?:[^\x00-\x7F]|\w)+)/;
+
     return text.split(' ').map((w, i) => (pattern.test(w) ? <em key={i}>{w}</em> : w + ' '));
   };
 
@@ -29,7 +32,8 @@ function Tweet({ username, user, date, content, avatar, _id, onDelete }) {
     }
   };
 
-  const dispatch = useDispatch();
+  console.log(user.username, username, userLog.username);
+
   const [like, setLike] = useState([]);
   const likeCount = like.length;
   const isLiked = like.includes(userLog.id);  
@@ -85,24 +89,23 @@ function Tweet({ username, user, date, content, avatar, _id, onDelete }) {
       <div className={styles.tweetContent}>
         <div className={styles.tweetHead}>
           <div id='firstname' className={styles.name}>
-            <h3>{user.firstname || userLog.firstname}</h3>
+            <h3>{user.firstname || firstname}</h3>
           </div>
           <div id='date' className={styles.date}>
             <Moment fromNow>{date}</Moment>
           </div>
         </div>
         <div id='username' className={styles.username}>
-          @{user.username || userLog.username}
+          @{user.username || username}
         </div>
         <div id='content' className={styles.content}>
           {highlightTags(content)}
         </div>
         <div className={styles.icons}>
           <FaHeart onClick={() => handleLikeClick()} className={styles.heart} />{likeCount}
-          {user.username ||
-            (username === userLog.username && (
-              <FaTrash className={styles.trash} onClick={() => handleDelete()} />
-            ))}
+           {(username === userLog.username || user.username === userLog.username) && (
+            <FaTrash className={styles.trash} onClick={() => handleDelete()} />
+          )}
         </div>
       </div>
     </div>

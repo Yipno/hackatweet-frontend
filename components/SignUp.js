@@ -79,7 +79,7 @@ const SignUp = () => {
       return;
     } else {
       const user = data.data;
-      dispatch(login({ username: user.username, token: user.token, firstname: user.username }));
+      dispatch(login({ username: user.username, token: user.token, firstname: user.firstname }));
       setOpen(false);
     }
     setFirstname('');
