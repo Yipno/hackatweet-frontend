@@ -16,14 +16,14 @@ function Home() {
       alert('Sire, estoy moultes palabres !');
       return;
     } else {
-      console.log(content);
-
       const result = await fetch(`http://localhost:3000/tweets/newtweet/${user.token}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ content }),
       });
       const data = await result.json();
+      console.log(data);
+
       setNewTweet(data.tweet);
       setTweet('');
     }

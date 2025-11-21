@@ -13,11 +13,12 @@ const LastTweets = ({ newTweet }) => {
       fetch('http://localhost:3000/tweets')
         .then(result => result.json())
         .then(data => {
+          data.allTweets.sort((a, b) => new Date(b.date) - new Date(a.date));
           setAllTweets(data.allTweets);
         });
     }
     if (newTweet) {
-      setAllTweets(prev => [...prev, newTweet]);
+      setAllTweets(prev => [newTweet, ...prev]);
     }
   }, [user.token, newTweet]);
 
