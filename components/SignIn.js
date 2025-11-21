@@ -64,16 +64,17 @@ const SignIn = () => {
       body: JSON.stringify({ username, password }),
     });
     const data = await response.json();
+    const user = data.data;
     if (!data.result) {
       alert('Vostre blason estois nul connu en ces lieues');
       return;
     } else {
-      dispatch(login({ username, token: data.token }));
+      dispatch(login({ username: user.username, firstname: user.username, token: user.token }));
       setOpen(false);
     }
     setPassword('');
     setUsername('');
-    console.log(data);
+    console.log(data.data.firstname);
   };
 
   return (

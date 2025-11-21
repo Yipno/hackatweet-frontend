@@ -4,11 +4,25 @@ import { FaHeart } from 'react-icons/fa6';
 import { FaTrash } from 'react-icons/fa';
 import { useEffect, useState } from 'react';
 import Moment from 'react-moment';
+import { useSelector } from 'react-redux';
 
-function Tweet({ user, date, content, avatar }) {
+function Tweet({ username, user, date, content, avatar, _id, onDelete }) {
+  const userLog = useSelector(state => state.user.value);
+
   const highlightTags = text => {
     const pattern = /(#(?:[^\x00-\x7F]|\w)+)/;
     return text.split(' ').map((w, i) => (pattern.test(w) ? <em key={i}>{w}</em> : w + ' '));
+  };
+
+  const handleDelete = async () => {
+    const result = await fetch(`http://localhost:3000/tweets/${_id}`, {
+      method: 'DELETE',
+    });
+    const data = await result.json();
+    console.log(data);
+    if (data.result) {
+      onDelete();
+    }
   };
 
   return (
@@ -19,22 +33,24 @@ function Tweet({ user, date, content, avatar }) {
       <div className={styles.tweetContent}>
         <div className={styles.tweetHead}>
           <div id='firstname' className={styles.name}>
-            <h3>{user.firstname}</h3>
+            <h3>{user.firstname || userLog.firstname}</h3>
           </div>
           <div id='date' className={styles.date}>
             <Moment fromNow>{date}</Moment>
           </div>
         </div>
         <div id='username' className={styles.username}>
-          @{user.username}
+          @{user.username || userLog.username}
         </div>
         <div id='content' className={styles.content}>
           {highlightTags(content)}
         </div>
         <div className={styles.icons}>
-          <FaHeart className={styles.heart} />
-          0
-          <FaTrash className={styles.trash} />
+          <FaHeart className={styles.heart} />0
+          {user.username ||
+            (username === userLog.username && (
+              <FaTrash className={styles.trash} onClick={() => handleDelete()} />
+            ))}
         </div>
       </div>
     </div>

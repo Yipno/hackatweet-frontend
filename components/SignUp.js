@@ -78,7 +78,8 @@ const SignUp = () => {
       alert('Ce gueux estois desja dans les registres');
       return;
     } else {
-      dispatch(login({ username, token: data.token }));
+      const user = data.data;
+      dispatch(login({ username: user.username, token: user.token, firstname: user.username }));
       setOpen(false);
     }
     setFirstname('');

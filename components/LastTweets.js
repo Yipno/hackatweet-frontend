@@ -18,15 +18,28 @@ const LastTweets = ({ newTweet }) => {
         });
     }
     if (newTweet) {
-      setAllTweets(prev => [newTweet, ...prev]);
+      const tweetToPost = { username: user.username, ...newTweet };
+      console.log('tweetToPost: ', tweetToPost);
+      setAllTweets(prev => [tweetToPost, ...prev]);
     }
   }, [user.token, newTweet]);
+
+  const handleDelete = id => {
+    setAllTweets(prev => prev.filter(t => t._id !== id));
+  };
 
   return (
     <>
       <section className={styles.main}>
         {allTweets.map((tweet, i) => {
-          return <Tweet key={i} avatar='/avatar.webp' {...tweet} />;
+          return (
+            <Tweet
+              key={i}
+              avatar='/avatar.webp'
+              {...tweet}
+              onDelete={() => handleDelete(tweet._id)}
+            />
+          );
         })}
         {/* <Tweet
           avatar={'/avatar.webp'}
