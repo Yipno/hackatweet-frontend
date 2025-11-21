@@ -2,15 +2,17 @@ import styles from '../styles/Home.module.css';
 import Image from 'next/image';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../reducers/user';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import LastTweets from './LastTweets';
 import Link from 'next/link';
 
 function Home() {
   const dispatch = useDispatch();
   const user = useSelector(state => state.user.value);
+  const trends = useSelector(state => state.hashtags.value);
   const [tweet, setTweet] = useState('');
   const [newTweet, setNewTweet] = useState(null);
+  const [topTrends, setTopTrends] = useState(trends);
 
   const sendTweet = async content => {
     if (content.length > 280) {
@@ -29,6 +31,14 @@ function Home() {
       setTweet('');
     }
   };
+
+  useEffect(() => {
+    if (trends.length === 0) {
+      return;
+    }
+    const sorted = [...trends].sort((a, b) => b.count - a.count);
+    setTopTrends(sorted.slice(0, 3));
+  }, [trends]);
 
   return (
     <main className={styles.main}>
@@ -82,15 +92,19 @@ function Home() {
         <div className={styles.rightContainer}>
           <h2 className={styles.title}>Ragots Pospulaires</h2>
           <div className={styles.trendsContainer}>
-            <div className={styles.trendingTweet}>
-              <span>
-                <Link href='/hashtag'>
-                  <em>#Victuailles</em>
-                </Link>
-              </span>
-              <span>23 gazouillis</span>
-            </div>
-            <div className={styles.trendingTweet}>
+            {topTrends.map(h => {
+              return (
+                <div className={styles.trendingTweet}>
+                  <span>
+                    <Link href='/hashtag'>
+                      <em>{h.key}</em>
+                    </Link>
+                  </span>
+                  <span>{h.count}</span>
+                </div>
+              );
+            })}
+            {/* <div className={styles.trendingTweet}>
               <span>
                 <em>#Festedelacitrouille</em>
               </span>
@@ -101,7 +115,7 @@ function Home() {
                 <em>#Pendaisondegueux</em>
               </span>
               <span>9 gazouillis</span>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

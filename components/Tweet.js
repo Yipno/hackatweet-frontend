@@ -5,11 +5,20 @@ import { FaTrash } from 'react-icons/fa';
 import { useEffect, useState } from 'react';
 import Moment from 'react-moment';
 import { useDispatch, useSelector } from 'react-redux';
-import { countHashtag } from '../reducers/hashtags';
+import { countHashtag, resetCount } from '../reducers/hashtags';
 
 function Tweet({ firstname, username, user, date, content, avatar, _id, onDelete }) {
   const dispatch = useDispatch();
   const userLog = useSelector(state => state.user.value);
+
+  useEffect(() => {
+    const pattern = /(#(?:[^\x00-\x7F]|\w)+)/g;
+    const matches = content.match(pattern);
+    if (!matches) return;
+    const uniqueTags = [...new Set(matches)];
+
+    uniqueTags.forEach(tag => dispatch(countHashtag(tag)));
+  }, []);
 
   const highlightTags = text => {
     const pattern = /(#(?:[^\x00-\x7F]|\w)+)/;
@@ -28,7 +37,7 @@ function Tweet({ firstname, username, user, date, content, avatar, _id, onDelete
     }
   };
 
-  console.log(user.username, username, userLog.username);
+  // console.log(user.username, username, userLog.username);
 
   return (
     <div className={styles.tweetContainer}>

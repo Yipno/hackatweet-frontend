@@ -4,10 +4,22 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useDispatch } from 'react-redux';
 import { logout } from '../reducers/user';
+import { useEffect, useState } from 'react';
 
 function Hashtag() {
   const dispatch = useDispatch();
   const user = useSelector(state => state.user.value);
+  const trends = useSelector(state => state.hashtags.value);
+  const [topTrends, setTopTrends] = useState([]);
+
+  useEffect(() => {
+    if (trends.length === 0) {
+      return;
+    }
+    const sorted = [...trends].sort((a, b) => b.count - a.count);
+    setTopTrends(sorted.slice(0, 3));
+  }, [trends]);
+
   return (
     <main className={styles.main}>
       <div className={styles.container}>
@@ -54,24 +66,18 @@ function Hashtag() {
         <div className={styles.rightContainer}>
           <h2 className={styles.title}>Ragots Pospulaires</h2>
           <div className={styles.trendsContainer}>
-            <div className={styles.trendingTweet}>
-              <span>
-                <em>#Victuailles</em>
-              </span>
-              <span>23 gazouillis</span>
-            </div>
-            <div className={styles.trendingTweet}>
-              <span>
-                <em>#Festedelacitrouille</em>
-              </span>
-              <span>32 gazouillis</span>
-            </div>
-            <div className={styles.trendingTweet}>
-              <span>
-                <em>#Pendaisondegueux</em>
-              </span>
-              <span>18 gazouillis</span>
-            </div>
+            {topTrends.map(h => {
+              return (
+                <div className={styles.trendingTweet}>
+                  <span>
+                    <Link href='/hashtag'>
+                      <em>{h.key}</em>
+                    </Link>
+                  </span>
+                  <span>{h.count}</span>
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>
