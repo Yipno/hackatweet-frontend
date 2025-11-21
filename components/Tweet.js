@@ -4,10 +4,14 @@ import { FaHeart } from 'react-icons/fa6';
 import { FaTrash } from 'react-icons/fa';
 import { useEffect, useState } from 'react';
 import Moment from 'react-moment';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { addLike, removeLike } from '../reducers/likes';
+import { likes } from '../reducers/likes';
 
 function Tweet({ username, user, date, content, avatar, _id, onDelete }) {
   const userLog = useSelector(state => state.user.value);
+  // const likeLog = useSelector(state => state.likes.value);
+
 
   const highlightTags = text => {
     const pattern = /(#(?:[^\x00-\x7F]|\w)+)/;
@@ -24,6 +28,54 @@ function Tweet({ username, user, date, content, avatar, _id, onDelete }) {
       onDelete();
     }
   };
+
+  const dispatch = useDispatch();
+  const [like, setLike] = useState([]);
+  const likeCount = like.length;
+  const isLiked = like.includes(userLog.id);  
+
+  // CLIC SUR ICONE LIKE
+  const handleLikeClick = () => {
+    if (!userLog.token) {
+      return;
+    }
+
+    // SI DEJA LIKE, DISLIKE + DELETE BDD
+    if (isLiked) {
+      fetch(`http://localhost:3000/tweets/dislike/${userLog.token}`, {
+		  method: 'POST',
+		  headers: { 'Content-Type': 'application/json' },
+		  body: JSON.stringify({ tweetId: _id }),
+	     })
+       .then(response => response.json())
+       .then(data => {
+         console.log("data", data);
+          if (data.result) {
+              dispatch(removeLike(user));
+              console.log("user", user);
+              setLike(data => data.filter(id => id !== userLog.id));
+              console.log("like", like);
+          } 
+        })
+      };
+
+    // AJOUT LIKE COMPTEUR + BDD
+    fetch(`http://localhost:3000/tweets/like/${userLog.token}`, {
+		method: 'POST',
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify({ tweetId: _id }),
+	    })
+      .then(response => response.json())
+      .then(data => {
+        console.log("data", data);
+        if (data.result) {
+            dispatch(addLike(user));
+            console.log("user", user);
+            setLike(data => [...data, userLog.id]);
+            console.log("like", like);
+          } 
+        })
+      };
 
   return (
     <div className={styles.tweetContainer}>
@@ -46,7 +98,7 @@ function Tweet({ username, user, date, content, avatar, _id, onDelete }) {
           {highlightTags(content)}
         </div>
         <div className={styles.icons}>
-          <FaHeart className={styles.heart} />0
+          <FaHeart onClick={() => handleLikeClick()} className={styles.heart} />{likeCount}
           {user.username ||
             (username === userLog.username && (
               <FaTrash className={styles.trash} onClick={() => handleDelete()} />
