@@ -12,8 +12,15 @@ import { likes } from '../reducers/likes';
 function Tweet({ firstname, username, user, date, content, avatar, _id, onDelete }) {
   const dispatch = useDispatch();
   const userLog = useSelector(state => state.user.value);
-  // const likeLog = useSelector(state => state.likes.value);
 
+  useEffect(() => {
+    const pattern = /(#(?:[^\x00-\x7F]|\w)+)/g;
+    const matches = content.match(pattern);
+    if (!matches) return;
+    const uniqueTags = [...new Set(matches)];
+
+    uniqueTags.forEach(tag => dispatch(countHashtag(tag)));
+  }, []);
 
   const highlightTags = text => {
     const pattern = /(#(?:[^\x00-\x7F]|\w)+)/;
@@ -36,12 +43,12 @@ function Tweet({ firstname, username, user, date, content, avatar, _id, onDelete
 
   const [like, setLike] = useState([]);
   const likeCount = like.length;
-  const isLiked = like.includes(userLog.id);  
+  const isLiked = like.includes(userLog.id);
 
   let likeStyle = {};
-    if (isLiked) {
-    likeStyle = {'color': '#c20404ff'};
-    } 
+  if (isLiked) {
+    likeStyle = { color: '#c20404ff' };
+  }
 
   // CLIC SUR ICONE LIKE
   const handleLikeClick = () => {
@@ -52,39 +59,38 @@ function Tweet({ firstname, username, user, date, content, avatar, _id, onDelete
     // SI DEJA LIKE, DISLIKE + DELETE BDD
     if (isLiked) {
       fetch(`http://localhost:3000/tweets/dislike/${userLog.token}`, {
-		  method: 'POST',
-		  headers: { 'Content-Type': 'application/json' },
-		  body: JSON.stringify({ tweetId: _id }),
-	     })
-       .then(response => response.json())
-       .then(data => {
-         console.log("data", data);
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ tweetId: _id }),
+      })
+        .then(response => response.json())
+        .then(data => {
+          console.log('data', data);
           if (data.result) {
-              dispatch(removeLike(user));
-              console.log("user", user);
-              setLike(data => data.filter(id => id !== userLog.id));
-              console.log("like", like);
-          } 
-        })
-      } else {
-
-    // AJOUT LIKE COMPTEUR + BDD
-    fetch(`http://localhost:3000/tweets/like/${userLog.token}`, {
-		method: 'POST',
-		headers: { 'Content-Type': 'application/json' },
-		body: JSON.stringify({ tweetId: _id }),
-	    })
-      .then(response => response.json())
-      .then(data => {
-        console.log("data", data);
-        if (data.result) {
+            dispatch(removeLike(user));
+            console.log('user', user);
+            setLike(data => data.filter(id => id !== userLog.id));
+            console.log('like', like);
+          }
+        });
+    } else {
+      // AJOUT LIKE COMPTEUR + BDD
+      fetch(`http://localhost:3000/tweets/like/${userLog.token}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ tweetId: _id }),
+      })
+        .then(response => response.json())
+        .then(data => {
+          console.log('data', data);
+          if (data.result) {
             dispatch(addLike(user));
-            console.log("user", user);
+            console.log('user', user);
             setLike(data => [...data, userLog.id]);
-          } 
-        })
-      }
-      };
+          }
+        });
+    }
+  };
 
   return (
     <div className={styles.tweetContainer}>
@@ -107,8 +113,9 @@ function Tweet({ firstname, username, user, date, content, avatar, _id, onDelete
           {highlightTags(content)}
         </div>
         <div className={styles.icons}>
-          <FaHeart onClick={() => handleLikeClick()}  style={likeStyle} className={styles.heart}/>{likeCount}
-           {(username === userLog.username || user.username === userLog.username) && (
+          <FaHeart onClick={() => handleLikeClick()} style={likeStyle} className={styles.heart} />
+          {likeCount}
+          {(username === userLog.username || user.username === userLog.username) && (
             <FaTrash className={styles.trash} onClick={() => handleDelete()} />
           )}
         </div>

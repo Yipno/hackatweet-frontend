@@ -57,7 +57,7 @@ const SignIn = () => {
 
   // LOGIQUE METIER
   const handleSignIn = async (username, password) => {
-    console.log(username, password);
+    // console.log(username, password);
     const response = await fetch('http://localhost:3000/users/signin', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },

@@ -11,7 +11,7 @@ import user from '../reducers/user';
 import hashtags from '../reducers/hashtags';
 
 const reducers = combineReducers({ user, hashtags });
-const persistConfig = { key: 'Gazouillis_du_Royaume', storage };
+const persistConfig = { key: 'Gazouillis_du_Royaume', storage, blacklist: ['hashtags'] };
 
 const store = configureStore({
   reducer: persistReducer(persistConfig, reducers),

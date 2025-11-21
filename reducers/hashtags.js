@@ -7,7 +7,7 @@ const initialState = {
 const hashtagsSlice = createSlice({
   name: 'hashtags',
   initialState,
-  reducer: {
+  reducers: {
     countHashtag: (state, action) => {
       const hashtag = action.payload;
       const found = state.value.find(h => h.key === hashtag);
@@ -18,8 +18,11 @@ const hashtagsSlice = createSlice({
         found.count += 1;
       }
     },
+    resetCount: state => {
+      state.value = [];
+    },
   },
 });
 
-export const { countHashtag } = hashtagsSlice.actions;
+export const { countHashtag, resetCount } = hashtagsSlice.actions;
 export default hashtagsSlice.reducer;

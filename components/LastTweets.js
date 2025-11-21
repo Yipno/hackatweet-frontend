@@ -1,14 +1,17 @@
 import Tweet from './Tweet';
 import styles from '../styles/LastTweets.module.css';
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { resetCount } from '../reducers/hashtags';
 
 const LastTweets = ({ newTweet }) => {
+  const dispatch = useDispatch();
   const userLog = useSelector(state => state.user.value);
   const [allTweets, setAllTweets] = useState([]);
 
   useEffect(() => {
     //GET ALL TWEETS
+    dispatch(resetCount());
     if (userLog.token && !newTweet) {
       fetch('http://localhost:3000/tweets')
         .then(result => result.json())
