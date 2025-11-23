@@ -44,12 +44,12 @@ function Home() {
     <main className={styles.main}>
       <div className={styles.container}>
         <div className={styles.leftContainer}>
-          <Image src={'/logo.webp'} alt={'logo'} height={200} width={200} />
+          <Image priority='true' src={'/logo.webp'} alt={'logo'} height={200} width={200} />
 
           <div className={styles.bottomInfo}>
             <div className={styles.userInfo}>
               <Image
-                src={'/avatar2.webp'}
+                src={'/avatar.webp'}
                 alt={'logo'}
                 height={60}
                 width={60}
@@ -72,7 +72,7 @@ function Home() {
             <div className={styles.tweetInput}>
               <textarea
                 type='text'
-                maxlength='280'
+                maxLength='280'
                 required
                 style={{ resize: 'none' }}
                 className={styles.input}
@@ -94,9 +94,9 @@ function Home() {
         <div className={styles.rightContainer}>
           <h2 className={styles.title}>Ragots Pospulaires</h2>
           <div className={styles.trendsContainer}>
-            {topTrends.map(h => {
+            {topTrends.map((h, i) => {
               return (
-                <div className={styles.trendingTweet}>
+                <div key={i} className={styles.trendingTweet}>
                   <span>
                     <Link href={{ pathname: '/hashtag', query: { hashtag: h.key } }}>
                       <em>{h.key}</em>

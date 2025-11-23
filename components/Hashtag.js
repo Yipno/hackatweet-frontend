@@ -61,13 +61,15 @@ function Hashtag() {
       <div className={styles.container}>
         <div className={styles.leftContainer}>
           <Link href='/'>
-            <Image src={'/logo.webp'} alt={'logo'} height={200} width={200} />
+            <a>
+              <Image priority='true' src={'/logo.webp'} alt={'logo'} height={200} width={200} />
+            </a>
           </Link>
 
           <div className={styles.bottomInfo}>
             <div className={styles.userInfo}>
               <Image
-                src={'/avatar2.webp'}
+                src={'/avatar.webp'}
                 alt={'logo'}
                 height={60}
                 width={60}
@@ -110,9 +112,9 @@ function Hashtag() {
         <div className={styles.rightContainer}>
           <h2 className={styles.title}>Ragots Pospulaires</h2>
           <div className={styles.trendsContainer}>
-            {topTrends.map(h => {
+            {topTrends.map((h, i) => {
               return (
-                <div className={styles.trendingTweet}>
+                <div key={i} className={styles.trendingTweet}>
                   <span>
                     <Link href={{ pathname: '/hashtag', query: { hashtag: h.key } }}>
                       <em>{h.key}</em>

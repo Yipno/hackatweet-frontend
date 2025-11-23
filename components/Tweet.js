@@ -2,12 +2,11 @@ import Image from 'next/image';
 import styles from '../styles/Tweet.module.css';
 import { FaHeart } from 'react-icons/fa6';
 import { FaTrash } from 'react-icons/fa';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Moment from 'react-moment';
 import { useDispatch, useSelector } from 'react-redux';
 import Link from 'next/link';
 import { addLike, removeLike } from '../reducers/likes';
-import { likes } from '../reducers/likes';
 
 function Tweet({ firstname, username, user, date, content, avatar, _id, onDelete, likes }) {
   const dispatch = useDispatch();
@@ -18,8 +17,8 @@ function Tweet({ firstname, username, user, date, content, avatar, _id, onDelete
 
     return text.split(' ').map((w, i) =>
       pattern.test(w) ? (
-        <Link href={{ pathname: '/hashtag', query: { hashtag: w } }}>
-          <em key={i}>{w + ' '}</em>
+        <Link key={i} href={{ pathname: '/hashtag', query: { hashtag: w } }}>
+          <em>{w + ' '}</em>
         </Link>
       ) : (
         w + ' '
@@ -39,7 +38,6 @@ function Tweet({ firstname, username, user, date, content, avatar, _id, onDelete
   };
 
   // console.log(user.username, username, userLog.username);
-
   const [like, setLike] = useState(likes);
   const likeCount = like.length;
   const isLiked = like.includes(userLog.id);

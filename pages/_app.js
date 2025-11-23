@@ -9,8 +9,9 @@ import storage from 'redux-persist/lib/storage';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import user from '../reducers/user';
 import hashtags from '../reducers/hashtags';
+import likes from '../reducers/likes';
 
-const reducers = combineReducers({ user, hashtags });
+const reducers = combineReducers({ user, hashtags, likes });
 const persistConfig = { key: 'Gazouillis_du_Royaume', storage };
 
 const store = configureStore({
@@ -26,6 +27,7 @@ function App({ Component, pageProps }) {
         <PersistGate persistor={persistor}>
           <Head>
             <title>Gazouillis du Royaume</title>
+            <meta description='tweeter si ca avait existé au Xe siècle'></meta>
           </Head>
           <Component {...pageProps} />
         </PersistGate>
