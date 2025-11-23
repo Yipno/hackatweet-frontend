@@ -2,23 +2,59 @@ import styles from '../styles/Hashtag.module.css';
 import { useSelector } from 'react-redux';
 import Image from 'next/image';
 import Link from 'next/link';
+import Tweet from './Tweet';
 import { useDispatch } from 'react-redux';
 import { logout } from '../reducers/user';
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 
 function Hashtag() {
+  const router = useRouter();
+
   const dispatch = useDispatch();
   const user = useSelector(state => state.user.value);
   const trends = useSelector(state => state.hashtags.value);
   const [topTrends, setTopTrends] = useState([]);
+  const [searchInput, setSearchInput] = useState('');
+  const [tweetsTrends, setTweetsTrends] = useState([]);
+  const [tweets, setTweets] = useState([]);
 
   useEffect(() => {
+    console.log(trends);
     if (trends.length === 0) {
       return;
     }
     const sorted = [...trends].sort((a, b) => b.count - a.count);
     setTopTrends(sorted.slice(0, 3));
-  }, [trends]);
+  }, []);
+
+  useEffect(() => {
+    setTweets(
+      tweetsTrends.map((t, i) => {
+        return <Tweet key={i} avatar='/avatar.webp' {...t} onDelete={() => handleDelete(t._id)} />;
+      })
+    );
+  }, [tweetsTrends]);
+
+  useEffect(() => {
+    const { hashtag } = router.query;
+    handleSearch(hashtag);
+  }, [router.query]);
+
+  const handleSearch = async hashtag => {
+    if (!hashtag.startsWith('#')) {
+      hashtag = '#' + hashtag;
+    }
+    const result = await fetch(
+      `http://localhost:3000/tweets?hashtag=${encodeURIComponent(hashtag)}`
+    );
+    const data = await result.json();
+    setTweetsTrends(data.hashtag);
+  };
+
+  const handleDelete = id => {
+    setTweetsTrends(prev => prev.filter(t => t._id !== id));
+  };
 
   return (
     <main className={styles.main}>
@@ -55,13 +91,21 @@ function Hashtag() {
               <input
                 type='text'
                 className={styles.input}
-                placeholder='Entre ton gribouillis, vaillant ribaud…'></input>
+                placeholder='Entre ton gribouillis, vaillant ribaud…'
+                onChange={e => setSearchInput(e.target.value)}
+                value={searchInput}></input>
               <div className={styles.underInput}>
-                <button className={styles.tweetBtn}>Quérir</button>
+                <button className={styles.tweetBtn} onClick={() => handleSearch(searchInput)}>
+                  Quérir
+                </button>
               </div>
             </div>
           </div>
-          <div className={styles.tweetContainer}></div>
+          {tweetsTrends.length === 0 ? (
+            <div className={styles.empty}>Nul ragots</div>
+          ) : (
+            <div className={styles.tweetContainer}>{tweets}</div>
+          )}
         </div>
         <div className={styles.rightContainer}>
           <h2 className={styles.title}>Ragots Pospulaires</h2>
@@ -70,7 +114,7 @@ function Hashtag() {
               return (
                 <div className={styles.trendingTweet}>
                   <span>
-                    <Link href='/hashtag'>
+                    <Link href={{ pathname: '/hashtag', query: { hashtag: h.key } }}>
                       <em>{h.key}</em>
                     </Link>
                   </span>

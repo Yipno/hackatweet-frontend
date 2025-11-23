@@ -1,7 +1,7 @@
 .main {
-  height: 71vh;
+  height: 100%;
   width: 100%;
-  /* border: 5px solid #4a3b2a;
-  border-radius: 14px; */
-  overflow: scroll;
+  /* border: 5px solid #4a3b2a; */
+
+  overflow: auto;
 }

@@ -15,7 +15,7 @@ function Home() {
   const [topTrends, setTopTrends] = useState(trends);
 
   const sendTweet = async content => {
-    if (content.length > 280) {
+    if (content.length > 280 || !content) {
       alert('Sire, estoy moultes palabres !');
       return;
     } else {
@@ -72,7 +72,9 @@ function Home() {
             <div className={styles.tweetInput}>
               <textarea
                 type='text'
-                max='280'
+                maxlength='280'
+                required
+                style={{ resize: 'none' }}
                 className={styles.input}
                 placeholder='Que veux-tu braire en ceste heure ?'
                 onChange={e => setTweet(e.target.value)}
@@ -96,7 +98,7 @@ function Home() {
               return (
                 <div className={styles.trendingTweet}>
                   <span>
-                    <Link href='/hashtag'>
+                    <Link href={{ pathname: '/hashtag', query: { hashtag: h.key } }}>
                       <em>{h.key}</em>
                     </Link>
                   </span>

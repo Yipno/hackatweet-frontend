@@ -2,10 +2,10 @@ import Image from 'next/image';
 import styles from '../styles/Tweet.module.css';
 import { FaHeart } from 'react-icons/fa6';
 import { FaTrash } from 'react-icons/fa';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Moment from 'react-moment';
 import { useDispatch, useSelector } from 'react-redux';
-import { countHashtag } from '../reducers/hashtags';
+import Link from 'next/link';
 import { addLike, removeLike } from '../reducers/likes';
 import { likes } from '../reducers/likes';
 
@@ -13,19 +13,18 @@ function Tweet({ firstname, username, user, date, content, avatar, _id, onDelete
   const dispatch = useDispatch();
   const userLog = useSelector(state => state.user.value);
 
-  useEffect(() => {
-    const pattern = /(#(?:[^\x00-\x7F]|\w)+)/g;
-    const matches = content.match(pattern);
-    if (!matches) return;
-    const uniqueTags = [...new Set(matches)];
-
-    uniqueTags.forEach(tag => dispatch(countHashtag(tag)));
-  }, []);
-
   const highlightTags = text => {
     const pattern = /(#(?:[^\x00-\x7F]|\w)+)/;
 
-    return text.split(' ').map((w, i) => (pattern.test(w) ? <em key={i}>{w}</em> : w + ' '));
+    return text.split(' ').map((w, i) =>
+      pattern.test(w) ? (
+        <Link href={{ pathname: '/hashtag', query: { hashtag: w } }}>
+          <em key={i}>{w + ' '}</em>
+        </Link>
+      ) : (
+        w + ' '
+      )
+    );
   };
 
   const handleDelete = async () => {
@@ -33,7 +32,7 @@ function Tweet({ firstname, username, user, date, content, avatar, _id, onDelete
       method: 'DELETE',
     });
     const data = await result.json();
-    console.log(data);
+    // console.log(data);
     if (data.result) {
       onDelete();
     }

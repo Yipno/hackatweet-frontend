@@ -29,7 +29,6 @@
 /*! LEFT */
 
 .leftContainer {
-  /* background-color: red; */
   padding: 2em 0;
   height: 96vh;
   width: 25%;
@@ -52,7 +51,7 @@
 .names {
   display: flex;
   flex-direction: column;
-  margin-left: 20px;
+  margin-left: 10px;
   justify-content: center;
 }
 
@@ -74,15 +73,15 @@
 
 .middleContainer {
   width: 50%;
-  height: 96vh;
+  height: 100%;
   display: flex;
   flex-direction: column;
-  border: 4px solid #4a3b2a;
+  border-right: 4px solid #4a3b2a;
+  border-left: 4px solid #4a3b2a;
 }
 
 .tweetHeader {
   height: 25vh;
-  /* background-color: yellow; */
   padding: 1em 2em 1em 2em;
   width: 100%;
   border-bottom: 4px solid #4a3b2a;
@@ -115,7 +114,6 @@
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  /* border: 1px solid red; */
 }
 
 .tweetBtn {
@@ -134,9 +132,17 @@
 }
 
 .tweetContainer {
-  height: 100%;
+  flex: 1;
   width: 100%;
-  /* background-color: blue; */
+}
+
+.empty {
+  width: 100%;
+  height: 4em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.4em;
 }
 
 /*! TRENDS */
